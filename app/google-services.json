@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "969870624943",
+    "project_id": "belajar-pam",
+    "storage_bucket": "belajar-pam.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:969870624943:android:206c3ad1caded575e22c5a",
+        "android_client_info": {
+          "package_name": "com.example.meet14firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRrbA42CHo-uaeHJFhdhEYeVpJ1VGokv8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
