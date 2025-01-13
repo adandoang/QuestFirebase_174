@@ -7,11 +7,8 @@ data class Mahasiswa (
     val jenis_kelamin: String,
     val kelas: String,
     val angkatan: String
-)
-
-{
-    constructor(
-
-    ):this("", "", "", "", "", "")
+) {
+//    constructor(
+//    ) :this("", "", "", "", "", "")
 }
 
