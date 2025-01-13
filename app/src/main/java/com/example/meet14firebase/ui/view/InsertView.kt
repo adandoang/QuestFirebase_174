@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,18 +14,102 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.meet14firebase.ui.viewmodel.FormErrorState
 import com.example.meet14firebase.ui.viewmodel.FormState
 import com.example.meet14firebase.ui.viewmodel.HomeUiState
 import com.example.meet14firebase.ui.viewmodel.InsertUiState
+import com.example.meet14firebase.ui.viewmodel.InsertViewModel
 import com.example.meet14firebase.ui.viewmodel.MahasiswaEvent
+import com.example.meet14firebase.ui.viewmodel.PenyediaViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.text.Normalizer.Form
+
+@Composable
+fun InsertMhsView(
+    onBack: () -> Unit,
+    onNavigate: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: InsertViewModel = viewModel(factory = PenyediaViewModel.Factory)
+){
+    val uiState = viewModel.uiState
+    val uiEvent = viewModel.uiEvent
+    val snackBarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(uiState) {
+        when (uiState) {
+            is FormState.Success -> {
+                println(
+                    "InsertMhsView: uiState is FormState.Success, navigate to home " + uiState.message
+                )
+                coroutineScope.launch {
+                    snackBarHostState.showSnackbar(uiState.message)
+                }
+                delay(700)
+                onNavigate()
+
+                viewModel.resetSnackBarMessage()
+            }
+            is FormState.Error -> {
+                coroutineScope.launch {
+                    snackBarHostState.showSnackbar(uiState.message)
+                }
+            }
+            else -> Unit
+        }
+    }
+
+    Scaffold (
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
+        topBar = {
+            TopAppBar(
+                title = { Text("Tambah Mahasiswa") },
+                navigationIcon = {
+                    Button(onClick = onBack) {
+                        Text("Back")
+                    }
+                }
+            )
+        }
+    ){ padding ->
+        Column (
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp)
+        ){
+            insertBodyMhs(
+                uiState = uiEvent,
+                homeUiState = uiState,
+                onValueChange = { updatedEvent ->
+                    viewModel.updateState(updatedEvent)
+                },
+                onClick = {
+                    if (viewModel.validateFields()) {
+                        viewModel.insertMhs()
+                    }
+                }
+            )
+        }
+    }
+}
 
 @Composable
 fun insertBodyMhs (
