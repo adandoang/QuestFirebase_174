@@ -48,7 +48,8 @@ import com.example.meet14firebase.ui.viewmodel.PenyediaViewModel
 fun HomeScreen(
     navigateToItemEntry: ()-> Unit,
     modifier: Modifier=Modifier,
-    onDetailClick: (String) -> Unit={},
+    onDetailClick: (String) -> Unit = {},
+    onDeleteClick: (String) -> Unit = {},
     viewModel: HomeViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ){
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -74,6 +75,7 @@ fun HomeScreen(
             retryAction = { viewModel.getMhs() }, modifier = Modifier.padding(innerPadding),
             onDetailClick = onDetailClick,
             onDeleteClick = {
+                viewModel.deleteMhs(it)
                 viewModel.getMhs()
             }
         )
