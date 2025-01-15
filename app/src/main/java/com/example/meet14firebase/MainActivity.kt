@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.meet14firebase.navigation.PengelolaHalaman
 import com.example.meet14firebase.ui.theme.Meet14FirebaseTheme
 import com.example.meet14firebase.ui.view.HomeScreen
 
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Meet14FirebaseTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    HomeScreen(navigateToItemEntry = {}, modifier = Modifier.padding(innerPadding))
+                    PengelolaHalaman(modifier = Modifier.padding(innerPadding))
                 }
             }
         }

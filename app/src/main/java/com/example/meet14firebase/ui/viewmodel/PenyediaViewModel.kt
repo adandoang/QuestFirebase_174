@@ -8,6 +8,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.meet14firebase.MahasiswaApplications
 import com.example.meet14firebase.model.Mahasiswa
+import com.example.meet14firebase.ui.viewmodel.PenyediaViewModel.aplikasiMahasiswa
 
 object PenyediaViewModel{
     val Factory = viewModelFactory {
@@ -19,6 +20,11 @@ object PenyediaViewModel{
         initializer {
             InsertViewModel(
                 aplikasiMahasiswa().container.mahasiswaRepository
+            )
+        }
+        initializer {
+            DetailViewModel(
+                createSavedStateHandle(), aplikasiMahasiswa().container.mahasiswaRepository
             )
         }
     }

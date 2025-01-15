@@ -1,9 +1,7 @@
 package com.example.meet14firebase.ui.view
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -11,7 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -31,11 +28,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.meet14firebase.model.Mahasiswa
@@ -49,10 +45,10 @@ fun HomeScreen(
     navigateToItemEntry: ()-> Unit,
     modifier: Modifier=Modifier,
     onDetailClick: (String) -> Unit = {},
-    onDeleteClick: (String) -> Unit = {},
     viewModel: HomeViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ){
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
     Scaffold (
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
@@ -87,7 +83,7 @@ fun HomeStatus(
     homeUiState: HomeUiState,
     retryAction: () -> Unit,
     modifier: Modifier = Modifier,
-    onDeleteClick: (String) -> Unit={},
+    onDeleteClick: (Mahasiswa) -> Unit={},
     onDetailClick: (String) -> Unit
 ) {
     when (homeUiState) {
@@ -100,7 +96,7 @@ fun HomeStatus(
                     onDetailClick(it.nim)
                 },
                 onDeleteClick = {
-                    onDeleteClick(it)
+                    onDetailClick(it)
                 }
             )
 
@@ -156,10 +152,9 @@ fun MhsLayout(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {onDetailClick(mahasiswa)},
-                onDeleteClick = {
-                    onDeleteClick(it)
-                }
-            )
+            ) {
+                onDeleteClick(it)
+            }
         }
     }
 }
@@ -203,10 +198,20 @@ fun MhsCard(
                 text = mahasiswa.kelas,
                 style = MaterialTheme.typography.titleMedium
             )
-            Text(
-                text = mahasiswa.alamat,
-                style = MaterialTheme.typography.titleMedium
-            )
+            Row (
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Text(
+                    text = mahasiswa.alamat,
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Spacer(Modifier.weight(1f))
+                Text(
+                    text = mahasiswa.judul_skripsi,
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
         }
     }
 }

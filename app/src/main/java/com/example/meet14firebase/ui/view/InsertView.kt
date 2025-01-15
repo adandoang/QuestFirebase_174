@@ -197,7 +197,6 @@ fun FormMahasiswa(
             color = Color.Red
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
         Text(text = "Jenis Kelamin")
         Row (
             modifier = Modifier.fillMaxWidth()
@@ -239,7 +238,6 @@ fun FormMahasiswa(
             color = Color.Red
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
         Text(text = "Kelas")
         Row (
             modifier = Modifier.fillMaxWidth()
@@ -279,6 +277,51 @@ fun FormMahasiswa(
         )
         Text(
             text = errorState.angkatan ?: "",
+            color = Color.Red
+        )
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = mahasiswaEvent.dosen1,
+            onValueChange = {
+                onValueChange (mahasiswaEvent.copy(dosen1 = it))
+            },
+            label = { Text("Dosen 1") },
+            isError = errorState.dosen1 != null,
+            placeholder = { Text("Masukkan Dosen pembimbing 1") },
+        )
+        Text(
+            text = errorState.dosen1 ?: "",
+            color = Color.Red
+        )
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = mahasiswaEvent.dosen2,
+            onValueChange = {
+                onValueChange (mahasiswaEvent.copy(dosen2 = it))
+            },
+            label = { Text("Dosen 2") },
+            isError = errorState.dosen2 != null,
+            placeholder = { Text("Masukkan Dosen pembimbing 2") },
+        )
+        Text(
+            text = errorState.dosen2 ?: "",
+            color = Color.Red
+        )
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = mahasiswaEvent.judul_skripsi,
+            onValueChange = {
+                onValueChange (mahasiswaEvent.copy(judul_skripsi = it))
+            },
+            label = { Text("Judul Skripsi") },
+            isError = errorState.judul_skripsi != null,
+            placeholder = { Text("Masukkan Judul Skripsi") },
+        )
+        Text(
+            text = errorState.judul_skripsi ?: "",
             color = Color.Red
         )
     }
